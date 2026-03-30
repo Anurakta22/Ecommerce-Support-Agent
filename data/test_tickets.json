@@ -1,0 +1,401 @@
+[
+  {
+    "id": "T001",
+    "category": "standard",
+    "ticket_text": "I want to return my jacket. I bought it 2 weeks ago and it doesn't fit.",
+    "order_context": {
+      "order_id": "ORD-001",
+      "order_date": "2025-02-10",
+      "delivery_date": "2025-02-14",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Standard return within 30 days, apparel, first-party"
+  },
+  {
+    "id": "T002",
+    "category": "standard",
+    "ticket_text": "I haven't received my package yet. My tracking shows it's been stuck in transit for 10 days.",
+    "order_context": {
+      "order_id": "ORD-002",
+      "order_date": "2025-02-15",
+      "delivery_date": null,
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "shipped",
+      "payment_method": "paypal"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Potentially lost shipment — first-party, standard shipping inquiry"
+  },
+  {
+    "id": "T003",
+    "category": "standard",
+    "ticket_text": "I placed an order 30 minutes ago and I'd like to cancel it immediately.",
+    "order_context": {
+      "order_id": "ORD-003",
+      "order_date": "2025-03-01",
+      "delivery_date": null,
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "placed",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Pre-shipment cancellation — straightforward approval"
+  },
+  {
+    "id": "T004",
+    "category": "standard",
+    "ticket_text": "My shoes arrived in the wrong size. I ordered a US 10 but received a US 8.",
+    "order_context": {
+      "order_id": "ORD-004",
+      "order_date": "2025-02-20",
+      "delivery_date": "2025-02-26",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Wrong item shipped — clear approve"
+  },
+  {
+    "id": "T005",
+    "category": "standard",
+    "ticket_text": "I never received my refund for the order I returned 3 weeks ago.",
+    "order_context": {
+      "order_id": "ORD-005",
+      "order_date": "2025-01-15",
+      "delivery_date": "2025-01-20",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "returned",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Refund not received — payment policy inquiry"
+  },
+  {
+    "id": "T006",
+    "category": "standard",
+    "ticket_text": "I want to cancel my order. It's already been shipped. Can I still get a refund?",
+    "order_context": {
+      "order_id": "ORD-006",
+      "order_date": "2025-02-28",
+      "delivery_date": null,
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "shipped",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "deny",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Post-shipment cancellation — deny, redirect to return after delivery"
+  },
+  {
+    "id": "T007",
+    "category": "standard",
+    "ticket_text": "My promo code didn't apply at checkout. I should have gotten 15% off my electronics order.",
+    "order_context": {
+      "order_id": "ORD-007",
+      "order_date": "2025-02-14",
+      "delivery_date": "2025-02-18",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": false,
+    "notes": "Promo code dispute — needs manual verification of code validity"
+  },
+  {
+    "id": "T008",
+    "category": "standard",
+    "ticket_text": "One item is missing from my order. I ordered a laptop and a mouse but only received the laptop.",
+    "order_context": {
+      "order_id": "ORD-008",
+      "order_date": "2025-02-22",
+      "delivery_date": "2025-02-27",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "debit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Missing item in order — straightforward partial fulfill/refund"
+  },
+  {
+    "id": "T009",
+    "category": "exception",
+    "ticket_text": "My cookies arrived completely melted. I want a full refund and I will not return them since they are food.",
+    "order_context": {
+      "order_id": "ORD-009",
+      "order_date": "2025-02-25",
+      "delivery_date": "2025-03-05",
+      "item_category": "perishable",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "partial",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Perishable damaged — no return needed, but refund/replacement eligible"
+  },
+  {
+    "id": "T010",
+    "category": "exception",
+    "ticket_text": "I want to return this foundation cream. I opened it but it doesn't match my skin tone.",
+    "order_context": {
+      "order_id": "ORD-010",
+      "order_date": "2025-02-10",
+      "delivery_date": "2025-02-15",
+      "item_category": "hygiene",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "deny",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Hygiene product opened — deny per exception policy"
+  },
+  {
+    "id": "T011",
+    "category": "exception",
+    "ticket_text": "I'd like to return this jacket. It was on clearance and marked as final sale.",
+    "order_context": {
+      "order_id": "ORD-011",
+      "order_date": "2025-01-20",
+      "delivery_date": "2025-01-25",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "deny",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Final sale item — deny return"
+  },
+  {
+    "id": "T012",
+    "category": "exception",
+    "ticket_text": "I bought headphones from a third-party seller on your platform. They stopped working after 2 days. I want a refund.",
+    "order_context": {
+      "order_id": "ORD-012",
+      "order_date": "2025-02-18",
+      "delivery_date": "2025-02-22",
+      "item_category": "electronics",
+      "fulfillment_type": "marketplace",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": false,
+    "notes": "Marketplace seller — refund must go through seller, platform has limited role"
+  },
+  {
+    "id": "T013",
+    "category": "exception",
+    "ticket_text": "My shampoo arrived with the seal broken. I haven't used it. Can I return it?",
+    "order_context": {
+      "order_id": "ORD-013",
+      "order_date": "2025-02-20",
+      "delivery_date": "2025-02-25",
+      "item_category": "hygiene",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "paypal"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Hygiene product compromised packaging — exception allows return"
+  },
+  {
+    "id": "T014",
+    "category": "exception",
+    "ticket_text": "I received the wrong book but it's marked as final sale. I want the correct item.",
+    "order_context": {
+      "order_id": "ORD-014",
+      "order_date": "2025-02-05",
+      "delivery_date": "2025-02-10",
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Final sale but wrong item shipped — exception applies (SKU mismatch)"
+  },
+  {
+    "id": "T015",
+    "category": "exception",
+    "ticket_text": "The frozen fish I ordered arrived completely thawed and smells bad. It was delivered 2 days late.",
+    "order_context": {
+      "order_id": "ORD-015",
+      "order_date": "2025-02-28",
+      "delivery_date": "2025-03-04",
+      "item_category": "perishable",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "approve",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Perishable spoiled due to delivery delay — approve refund/replacement"
+  },
+  {
+    "id": "T016",
+    "category": "conflict",
+    "ticket_text": "I am based in France and I want to return this product. I know EU law gives me 14 days but your policy says 30 days. Which applies?",
+    "order_context": {
+      "order_id": "ORD-016",
+      "order_date": "2025-02-14",
+      "delivery_date": "2025-02-19",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "EU",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": false,
+    "notes": "EU vs platform policy conflict — regional EU policy takes precedence, but needs review"
+  },
+  {
+    "id": "T017",
+    "category": "conflict",
+    "ticket_text": "I used a 20% off promo code on a final sale item. Now I want to return it. The promo brought the price down significantly.",
+    "order_context": {
+      "order_id": "ORD-017",
+      "order_date": "2025-01-30",
+      "delivery_date": "2025-02-04",
+      "item_category": "apparel",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "deny",
+    "expected_escalation": false,
+    "should_abstain": false,
+    "notes": "Promo + final sale conflict — most restrictive rule: deny return"
+  },
+  {
+    "id": "T018",
+    "category": "conflict",
+    "ticket_text": "I bought this phone from a marketplace seller. The seller is not responding. Platform itself should refund me.",
+    "order_context": {
+      "order_id": "ORD-018",
+      "order_date": "2025-02-01",
+      "delivery_date": "2025-02-07",
+      "item_category": "electronics",
+      "fulfillment_type": "marketplace",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": false,
+    "notes": "Marketplace seller unresponsive — conflict between platform and seller responsibility"
+  },
+  {
+    "id": "T019",
+    "category": "not_in_policy",
+    "ticket_text": "I saw the same TV for $50 less at a competitor store. Can you match the price?",
+    "order_context": {
+      "order_id": "ORD-019",
+      "order_date": "2025-02-20",
+      "delivery_date": "2025-02-25",
+      "item_category": "electronics",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "delivered",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": true,
+    "notes": "Price matching — not in policy, must abstain/escalate"
+  },
+  {
+    "id": "T020",
+    "category": "not_in_policy",
+    "ticket_text": "Do you offer gift wrapping for my order? I want to send it as a birthday present.",
+    "order_context": {
+      "order_id": "ORD-020",
+      "order_date": "2025-03-01",
+      "delivery_date": null,
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "placed",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": true,
+    "notes": "Gift wrapping — not in policy, must abstain/escalate"
+  },
+  {
+    "id": "T021",
+    "category": "not_in_policy",
+    "ticket_text": "I have 5,000 loyalty points in my account. Can I convert them to cash and withdraw the money to my bank account?",
+    "order_context": {
+      "order_id": "ORD-021",
+      "order_date": "2025-03-05",
+      "delivery_date": null,
+      "item_category": "other",
+      "fulfillment_type": "first-party",
+      "shipping_region": "US",
+      "order_status": "placed",
+      "payment_method": "credit_card"
+    },
+    "expected_decision": "needs_escalation",
+    "expected_escalation": true,
+    "should_abstain": true,
+    "notes": "Loyalty points cash-out — not covered by any existing policy, must abstain and escalate"
+  }
+]
