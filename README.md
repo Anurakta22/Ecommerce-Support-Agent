@@ -1,4 +1,15 @@
+---
+title: Ecommerce Support Agent
+emoji: 🛍️
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+app_file: app.py
+pinned: false
+---
+
 # E-Commerce Support Resolution Agent
+
 
 A **4-agent LangChain RAG pipeline** that resolves e-commerce customer support tickets using a policy knowledge base powered by FAISS and Groq LLaMA-3.3-70B.
 
