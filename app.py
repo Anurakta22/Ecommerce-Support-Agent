@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 from src.pipeline import run_pipeline
+from src.models import TicketInput
 
 st.set_page_config(page_title="E-Commerce Support Agent", page_icon="🤖", layout="wide")
 
@@ -54,7 +55,7 @@ if st.button("🚀 Process Ticket", type="primary"):
     with st.spinner("Processing ticket through Triage, Retrieval, Resolution, and Compliance agents..."):
         try:
             # Construct the input object expected by run_pipeline
-            ticket_input = {
+            ticket_input_dict = {
                 "ticket_text": ticket_text,
                 "order_context": {
                     "order_id": order_id,
@@ -67,9 +68,11 @@ if st.button("🚀 Process Ticket", type="primary"):
                     "payment_method": payment_method
                 }
             }
+            ticket_input = TicketInput(**ticket_input_dict)
             
             # Run the agent pipeline
-            result = run_pipeline(ticket_input)
+            result_model = run_pipeline(ticket_input)
+            result = result_model.model_dump()
             
             st.success("Analysis Complete!")
             
@@ -83,7 +86,7 @@ if st.button("🚀 Process Ticket", type="primary"):
                 st.write(result['rationale'])
                 
                 st.markdown("**Proposed Customer Response:**")
-                st.info(result['response'])
+                st.info(result['customer_response_draft'])
                 
                 st.markdown("**Next Steps (Internal):**")
                 st.write(result['next_steps'])
@@ -107,5 +110,6 @@ if st.button("🚀 Process Ticket", type="primary"):
                 st.json(result)
                 
         except Exception as e:
+            import traceback
             st.error(f"An error occurred: {str(e)}")
-            st.code(import traceback; traceback.format_exc())
+            st.code(traceback.format_exc())

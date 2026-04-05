@@ -32,10 +32,10 @@ def load_retriever(k: int = 6):
         LangChain retriever instance.
     """
     if not (VECTORSTORE_DIR / "index.faiss").exists():
-        raise FileNotFoundError(
-            f"Vectorstore not found at {VECTORSTORE_DIR}. "
-            "Run `python src/ingest.py` first."
-        )
+        print(f"Vectorstore not found at {VECTORSTORE_DIR}. Auto-generating it now...")
+        import subprocess
+        import sys
+        subprocess.run([sys.executable, str(ROOT_DIR / "src" / "ingest.py")], check=True)
 
     vectorstore = FAISS.load_local(
         str(VECTORSTORE_DIR),
