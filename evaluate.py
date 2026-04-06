@@ -1,5 +1,5 @@
 """
-evaluate.py — Run all 20 test tickets through the pipeline and generate a report.
+evaluate.py — Run all 21 test tickets through the pipeline and generate a report.
 
 Usage: python evaluate.py
 """

@@ -73,11 +73,12 @@ cp .env.example .env
 # Edit .env and add your GROQ_API_KEY
 ```
 
-### 5. Build the vector index
+### 5. Build the vector index (Optional)
+The FAISS vector database will automatically generate the first time you run the application. However, you can also build it manually using:
 ```bash
 python src/ingest.py
 ```
-Expected output: `✅ Indexed N chunks into vectorstore/`
+Expected output: `✅ Indexed chunks into vectorstore/`
 
 ---
 
@@ -96,7 +97,7 @@ python main.py
 ```
 Prompts for ticket text, uses a sample order context, and prints the full resolution as JSON.
 
-### Full evaluation (20 tickets)
+### Full evaluation (21 tickets)
 ```bash
 python evaluate.py
 ```
