@@ -8,16 +8,29 @@ app_file: app.py
 pinned: false
 ---
 
-# E-Commerce Support Resolution Agent
+# 🛍️ E-Commerce Support Resolution Agent
 
+[![Hugging Face Spaces](https://img.shields.io/badge/🤗%20Hugging%20Face-Live%20Demo-blue)](https://huggingface.co/spaces/Anurakta/Ecommerce-support-agent)
+[![Video Walkthrough](https://img.shields.io/badge/▶️%20Video-Walkthrough-red)](https://drive.google.com/file/d/1UNdLrF9vmBfTU1BakFzyQLbPjpDmVcbj/view?usp=sharing)
 
-A **4-agent LangChain RAG pipeline** that resolves e-commerce customer support tickets using a policy knowledge base powered by FAISS and Groq LLaMA-3.3-70B.
+An advanced **4-agent LangChain RAG pipeline** designed to autonomously resolve e-commerce customer support tickets. Powered by FAISS and Groq's high-speed LLaMA-3.3-70B, it reads an embedded policy knowledge base and drafts precise, citation-backed resolutions to enforce company rules without hallucination.
 
 ---
 
-## Architecture
+## 🚀 Live Demo & Deployment
 
-```
+This project is fully deployed and hosted on **Hugging Face Spaces**. You do not need to install anything locally to see it in action!
+
+- **Live Application:** [Hugging Face Space Dashboard](https://huggingface.co/spaces/Anurakta/Ecommerce-support-agent)
+- **Video Walkthrough:** [Google Drive Demo Recording](https://drive.google.com/file/d/1UNdLrF9vmBfTU1BakFzyQLbPjpDmVcbj/view?usp=sharing)
+
+*Note: The Hugging Face server automatically generates the required FAISS vector database from the internal Markdown documents on startup. The app is completely self-sufficient. If the Space shows "Building," it is simply compiling the database.*
+
+---
+
+## 🧠 Architecture
+
+```text
 Ticket Input
     │
     ▼
@@ -49,55 +62,56 @@ Ticket Input
 
 ---
 
-## Setup
+## 🛡️ No-Hallucination Controls
 
-### 1. Clone / navigate to the project
+1. **Evidence-only prompt** — The Resolution Writer is instructed to cite only retrieved excerpts.
+2. **Compliance Agent** — Independently verifies every single claim against the retrieved policy text.
+3. **Automatic escalation** — A failed compliance check triggers one automatic rewrite; a second failure forces a `needs_escalation` outcome.
+4. **`unsupported_claims_flag`** — Persistently tracked in every output for security monitoring.
+
+---
+
+## 💻 Running Locally (Optional)
+
+If you prefer to run the codebase on your own machine instead of using the live Hugging Face deployment, follow these local setup steps:
+
+### 1. Clone / Navigate to the project
 ```bash
 cd ecommerce-support-agent
 ```
 
-### 2. Create and activate virtual environment
+### 2. Create and activate a Virtual Environment
 ```bash
-python3 -m venv venv
-source venv/bin/activate        # On Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate        # On Windows: .venv\Scripts\activate
 ```
 
-### 3. Install dependencies
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure API key
+### 4. Configure API Key
 ```bash
 cp .env.example .env
 # Edit .env and add your GROQ_API_KEY
 ```
 
-### 5. Build the vector index (Optional)
+### 5. Build the Vector Index (Optional)
 The FAISS vector database will automatically generate the first time you run the application. However, you can also build it manually using:
 ```bash
 python src/ingest.py
 ```
 Expected output: `✅ Indexed chunks into vectorstore/`
 
----
-
-## Run
-
-### Streamlit Dashboard (Interactive UI)
-We highly recommend running the provided Streamlit app for a visual, interactive demonstration of the system:
-```bash
-streamlit run app.py
-```
-This will open `http://localhost:8501` in your browser where you can test different order contexts and ticket permutations.
-
-### Single ticket (CLI)
+### 6. Run the Application
+**Single ticket (CLI):**
 ```bash
 python main.py
 ```
 Prompts for ticket text, uses a sample order context, and prints the full resolution as JSON.
 
-### Full evaluation (21 tickets)
+**Full evaluation (21 tickets):**
 ```bash
 python evaluate.py
 ```
@@ -105,48 +119,13 @@ Runs all test tickets, prints a metrics report, and saves results to `outputs/ev
 
 ---
 
-## Policy Sources
+## 📚 Policy Sources
 
-All policy documents use the following source URLs and were last accessed on **2025-01-15**:
+All 13 synthetic policy documents are highly detailed and designed specifically for this vector database. They cover edge cases like Return Abuse, Regional Consumer Rights, Promotional Abuse, Seller Disputes, and Cancellations.
 
-| doc_id | Source URL | Coverage |
-|--------|------------|----------|
-| `policy_return_abuse_behavior` | `https://www.example-ecommerce.com/policies/abuse-behavior` | Return abuse detection, account restrictions |
-| `policy_returns_exceptions` | `https://www.example-ecommerce.com/policies/returns-exceptions` | Final sale, hygiene, perishable exceptions |
-| `policy_cancellations` | `https://www.example-ecommerce.com/policies/cancellations` | Pre/post-shipment cancellation rules |
-| `policy_shipping_lost` | `https://www.example-ecommerce.com/policies/shipping` | Lost/delayed shipment handling |
-| `policy_marketplace_seller` | `https://www.example-ecommerce.com/policies/marketplace` | Third-party seller dispute procedures |
-| `policy_damaged_item` | `https://www.example-ecommerce.com/policies/damaged-items` | Transit damage, replacement eligibility |
-| `policy_missing_items` | `https://www.example-ecommerce.com/policies/missing-items` | Partial order, missing item resolution |
-| `policy_promotions` | `https://www.example-ecommerce.com/policies/promotions` | Promo code rules, stacking restrictions |
-| `policy_regional_eu` | `https://www.example-ecommerce.com/policies/eu-consumer-rights` | EU consumer rights, 14-day right of withdrawal |
-| `policy_regional_us` | `https://www.example-ecommerce.com/policies/us-consumer-rights` | US-specific return and refund rules |
-| `policy_disputes_escalation` | `https://www.example-ecommerce.com/policies/disputes` | Dispute workflow, escalation triggers |
-| `policy_fraud_abuse` | `https://www.example-ecommerce.com/policies/fraud` | Fraud detection, account action |
-| `policy_order_context_interpretation` | `https://www.example-ecommerce.com/policies/order-context` | Order status interpretation guidelines |
+## 🏗️ Project Structure
 
----
-
-## Chunking Strategy
-
-**Primary:** `MarkdownHeaderTextSplitter` on `##` headers — each chunk maps cleanly to one policy section, enabling citation-ready retrieval with `doc_id > Section Name` references.
-
-**Secondary:** `RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=80)` — handles sections exceeding token limits. 600 chars captures a full policy clause; 80-char overlap prevents clause splits from losing context.
-
----
-
-## No-Hallucination Controls
-
-1. **Evidence-only prompt** — Resolution Writer is instructed to cite only retrieved excerpts
-2. **Compliance Agent** — verifies every claim against retrieved policy text
-3. **Automatic escalation** — failed compliance triggers one rewrite; second failure forces `needs_escalation`
-4. **`unsupported_claims_flag`** — tracked in every output for monitoring
-
----
-
-## Project Structure
-
-```
+```text
 ecommerce-support-agent/
 ├── policies/           ← 13 policy .md files
 ├── src/
@@ -155,13 +134,11 @@ ecommerce-support-agent/
 │   ├── retriever.py    ← Load FAISS + retriever
 │   ├── agents.py       ← 4 LangChain agents
 │   └── pipeline.py     ← Orchestration
-├── data/
-│   └── test_tickets.json
-├── outputs/
-│   └── eval_results.json
+├── data/               ← 21 test tickets
+├── outputs/            ← JSON eval results
 ├── vectorstore/        ← Auto-generated FAISS index
-├── main.py
-├── evaluate.py
-├── requirements.txt
+├── main.py             ← CLI runner
+├── evaluate.py         ← Evaluation suite
+├── requirements.txt    
 └── .env.example
 ```
