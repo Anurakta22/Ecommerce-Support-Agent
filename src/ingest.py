@@ -3,14 +3,12 @@ Ingestion pipeline: Load policy docs → chunk → embed → save FAISS index.
 
 Run: python src/ingest.py
 """
-import os
 import re
 import sys
 
 from pathlib import Path
 from dotenv import load_dotenv
 
-from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain.text_splitter import MarkdownHeaderTextSplitter, RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS

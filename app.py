@@ -1,5 +1,4 @@
 import streamlit as st
-import json
 from src.pipeline import run_pipeline
 from src.models import TicketInput
 
